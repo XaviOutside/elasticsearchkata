@@ -10,6 +10,7 @@ namespace ElasticSearch.Entities
             IdGif = string.Empty;
             Name = string.Empty;
             Description = string.Empty;
+            Description2 = string.Empty;
             Tags = new List<string>();
             URL = string.Empty;
         }
@@ -19,6 +20,8 @@ namespace ElasticSearch.Entities
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public string Description2 { get; set; }
 
         public int Score { get; set; }
 

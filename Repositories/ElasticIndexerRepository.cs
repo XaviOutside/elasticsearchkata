@@ -20,6 +20,7 @@ namespace ElasticSearch.Repositories
             //alternativa, en la declaración de la clase
             var settings = new ConnectionSettings(new Uri(_url)).InferMappingFor<Gif>(doc => doc.IdProperty(o => o.IdGif));
             settings.EnableDebugMode();
+            settings.DisableDirectStreaming();
             _client = new ElasticClient(settings);
             //pa ver un mapping, 
         }
@@ -88,6 +89,20 @@ namespace ElasticSearch.Repositories
                         .NumberOfShards(3)
                         .NumberOfReplicas(2)
                     )
+                    .Mappings(m => m
+                        .Map<Gif>( mg =>mg
+                            .Properties(p => p
+                                .Text(t => t
+                                    .Name(
+                                        n => n.Description
+                                     )
+                                     .Name(
+                                        n => n.Description2
+                                    ).Analyzer("spanish")
+                            )
+                        )
+                    )
+                )
                 );
 
             string.Format("ElasticIndexerRepository --> CreateIndex( indexName : {0} )", indexName).ToLog();
@@ -101,7 +116,10 @@ namespace ElasticSearch.Repositories
             var delRes = _client.DeleteIndex(indexName);
 
             string.Format("ElasticIndexerRepository --> DeleteIndex( indexName : {0} )", indexName).ToLog();
-            Encoding.UTF8.GetString(delRes.ApiCall.RequestBodyInBytes).ToLog(false);
+            if (delRes.ApiCall.RequestBodyInBytes != null)
+            {
+                Encoding.UTF8.GetString(delRes.ApiCall.RequestBodyInBytes).ToLog(false);
+            }
 
             return delRes.IsValid;
         }
@@ -115,7 +133,10 @@ namespace ElasticSearch.Repositories
             foreach (var index in indicesPointingToAlias)
             {
                 var delAliasRes = _client.DeleteAlias(index, aliasName);
-                Encoding.UTF8.GetString(delAliasRes.ApiCall.RequestBodyInBytes).ToLog(false);
+                if (delAliasRes.ApiCall.RequestBodyInBytes != null)
+                {
+                    Encoding.UTF8.GetString(delAliasRes.ApiCall.RequestBodyInBytes).ToLog(false);
+                }
             }
 
             return AddAlias(newIndexName, aliasName);

@@ -49,21 +49,43 @@ namespace ElasticSearch.Services
                        .Field("score")
                        .GreaterThanOrEquals(descriptor.ScoreMin)));
             }
-
+            
             if (!string.IsNullOrEmpty(descriptor.Description))
             {
                 queryContainerList.Add(qF.Match(m => m
                     .Field("description")
                     .Query(descriptor.Description)
                     .Fuzziness(Fuzziness.Auto)
+                    .Analyzer("spanish")
                 ));
+            }
+
+            if (!string.IsNullOrEmpty(descriptor.Description2))
+            {
+                queryContainerList.Add(qF.Match(m => m
+                    .Field("description2")
+                    .Query(descriptor.Description2)
+                    .Fuzziness(Fuzziness.Auto)
+                    .Analyzer("spanish")
+                ));
+            }
+
+            if (!string.IsNullOrEmpty(descriptor.Text))
+            {
+                queryContainerList.Add(qF.MultiMatch(mm => mm
+                            .Fields(f => f.Field("description").Field("description2"))
+                            .Query(descriptor.Text)
+                            .Fuzziness(Fuzziness.Auto)
+                            //.MinimumShouldMatch("100%")
+                            .Analyzer("spanish")
+                    ));
             }
 
             //if(descriptor.Tags.Any())
             //{
 
             //}
-            var elasticRequest = new SearchDescriptor<Gif>();
+                var elasticRequest = new SearchDescriptor<Gif>();
             elasticRequest
                 .Index(descriptor.IndexName)
                 .Query(q => q.Bool(b => b.Must(queryContainerList.ToArray())) &&

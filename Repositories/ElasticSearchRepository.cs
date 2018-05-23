@@ -19,7 +19,7 @@ namespace ElasticSearch.Repositories
             //alternativa, en la declaración de la clase
             var settings = new ConnectionSettings(new Uri(_url));
             settings.EnableDebugMode();
-
+            settings.DisableDirectStreaming();
             _client = new ElasticClient(settings);
             //pa ver un mapping, 
         }
