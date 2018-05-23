@@ -3,6 +3,7 @@ using ElasticSearch.Repositories;
 using Nest;
 using System.Collections.Generic;
 
+
 namespace ElasticSearch.Services
 {
     public class ElasticSearchService : IElasticSearchService
@@ -16,6 +17,7 @@ namespace ElasticSearch.Services
 
         IEnumerable<Gif> IElasticSearchService.Search<Gif>(GifFilter descriptor)
         {
+
             var queryContainerList = new List<QueryContainer>();
             var qF = new QueryContainerDescriptor<Gif>();
 
@@ -73,7 +75,7 @@ namespace ElasticSearch.Services
                     .Strict(false)));
 
 
-            return _elasticRepository.Search<Gif>(elasticRequest).Documents;
+            return _elasticRepository.Search<Gif>(elasticRequest).Documents;                        
         }
 
         Gif IElasticSearchService.Get<Gif>(string id, string indexName)

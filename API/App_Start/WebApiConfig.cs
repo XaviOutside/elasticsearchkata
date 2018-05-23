@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using Extensions.Logger;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
 
@@ -8,6 +9,8 @@ namespace API
     {
         public static void Register(HttpConfiguration config)
         {
+            "--------------- START PROGRAM ---------------".ToLog();
+
             config.MapHttpAttributeRoutes();
 
 

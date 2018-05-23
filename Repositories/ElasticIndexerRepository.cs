@@ -1,19 +1,25 @@
 ﻿using ElasticSearch.Entities;
+using Extensions.Logger;
 using Nest;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Text;
 
 namespace ElasticSearch.Repositories
 {
     public class ElasticIndexerRepository : IElasticIndexerRepository<Gif>
     {
-        private string _url = "http://localhost:9200/";
+        private string _url = string.Empty;
         protected ElasticClient _client;
 
         public ElasticIndexerRepository()
         {
+            _url = ConfigurationManager.AppSettings["URL_ELASTIC"] != null ? ConfigurationManager.AppSettings["URL_ELASTIC"] : string.Empty;
+
             //alternativa, en la declaración de la clase
             var settings = new ConnectionSettings(new Uri(_url)).InferMappingFor<Gif>(doc => doc.IdProperty(o => o.IdGif));
+            settings.EnableDebugMode();
             _client = new ElasticClient(settings);
             //pa ver un mapping, 
         }
@@ -25,6 +31,9 @@ namespace ElasticSearch.Repositories
             var putRequest = new PutAliasRequest(indexName, aliasName);
 
             var result = _client.PutAlias(putRequest);
+
+            string.Format("ElasticIndexerRepository --> AddAlias( indexName : {0}, aliasName : {1} )", indexName, aliasName).ToLog();
+            Encoding.UTF8.GetString(result.ApiCall.RequestBodyInBytes).ToLog(false);
 
             return result.IsValid;
         }
@@ -46,6 +55,9 @@ namespace ElasticSearch.Repositories
 
             var bulkRes = _client.Bulk(bulk);
             //examinar bulkRes, hay cosillas interesantes como el número de docs bulkeados etc
+
+            string.Format("ElasticIndexerRepository --> BulkIndex( entities : IEnumerable<Gif>, indexName : {0} )", indexName).ToLog();
+            Encoding.UTF8.GetString(bulkRes.ApiCall.RequestBodyInBytes).ToLog(false);
 
             return bulkRes.IsValid;
         }
@@ -78,12 +90,18 @@ namespace ElasticSearch.Repositories
                     )
                 );
 
+            string.Format("ElasticIndexerRepository --> CreateIndex( indexName : {0} )", indexName).ToLog();
+            Encoding.UTF8.GetString(idxRes.ApiCall.RequestBodyInBytes).ToLog(false);
+
             return idxRes.IsValid;
         }
 
         public bool DeleteIndex(string indexName)
         {
             var delRes = _client.DeleteIndex(indexName);
+
+            string.Format("ElasticIndexerRepository --> DeleteIndex( indexName : {0} )", indexName).ToLog();
+            Encoding.UTF8.GetString(delRes.ApiCall.RequestBodyInBytes).ToLog(false);
 
             return delRes.IsValid;
         }
@@ -92,9 +110,12 @@ namespace ElasticSearch.Repositories
         {
             var indicesPointingToAlias = _client.GetIndicesPointingToAlias(aliasName);
 
+            string.Format("ElasticIndexerRepository --> SwapAlias( newIndexName : {0}, aliasName {1} ) ", newIndexName, aliasName).ToLog();
+
             foreach (var index in indicesPointingToAlias)
             {
-                _client.DeleteAlias(index, aliasName);
+                var delAliasRes = _client.DeleteAlias(index, aliasName);
+                Encoding.UTF8.GetString(delAliasRes.ApiCall.RequestBodyInBytes).ToLog(false);
             }
 
             return AddAlias(newIndexName, aliasName);
