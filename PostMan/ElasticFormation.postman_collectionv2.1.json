@@ -1,0 +1,485 @@
+{
+	"info": {
+		"_postman_id": "1f7d69ee-37bf-4848-9945-70e0aa004cb8",
+		"name": "ElasticFormation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateIndex",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "indexName",
+						"value": "sdafasdfasf"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"IndexName\" : \"gifs_images\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51331/elastic/createindex",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"elastic",
+						"createindex"
+					]
+				},
+				"description": "Ejemplo de la consulta de crear indice"
+			},
+			"response": []
+		},
+		{
+			"name": "AddAlias",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "indexName",
+						"value": "sdafasdfasf"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/AddAlias/?indexName=gifs_images&aliasName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"AddAlias",
+						""
+					],
+					"query": [
+						{
+							"key": "indexName",
+							"value": "gifs_images"
+						},
+						{
+							"key": "aliasName",
+							"value": "xx_gifs_images"
+						}
+					]
+				},
+				"description": "Añade un alias al indice"
+			},
+			"response": []
+		},
+		{
+			"name": "SwapAlias",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "indexName",
+						"value": "sdafasdfasf"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/SwapAlias/?indexName=gifs_images_2&aliasName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"SwapAlias",
+						""
+					],
+					"query": [
+						{
+							"key": "indexName",
+							"value": "gifs_images_2"
+						},
+						{
+							"key": "aliasName",
+							"value": "xx_gifs_images"
+						}
+					]
+				},
+				"description": "Añade un alias al indice"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIndex",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "indexName",
+						"value": "sdafasdfasf"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/DeleteIndex/?indexName=gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"DeleteIndex",
+						""
+					],
+					"query": [
+						{
+							"key": "indexName",
+							"value": "gifs_images"
+						}
+					]
+				},
+				"description": "Añade un alias al indice"
+			},
+			"response": []
+		},
+		{
+			"name": "IndexDocuments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"IdGif\" : 1,\n\t\t\"Name\" : \"Gif N1\",\n\t\t\"Description\" : \"El primer gif que hay en el indice\",\n\t\t\"Description2\" : \"El segundo gif que hay en el indice\",\n\t\t\"Score\" : 1,\n\t\t\"Tags\" : [\"Tag1\", \"Tag2\"],\n\t\t\"URL\" : \"url del gif 1\"\n\t},\n\t{\n\t\t\"IdGif\" : 2,\n\t\t\"Name\" : \"Gif N2\",\n\t\t\"Description\" : \"El segundo gif que hay en el indice\",\n\t\t\"Description2\" : \"El tercer gif que hay en el indice\",\n\t\t\"Score\" : 2,\n\t\t\"Tags\" : [\"Tag3\", \"Tag4\"],\n\t\t\"URL\" : \"url del gif 2\"\n\t},\n\t{\n\t\t\"IdGif\" : 3,\n\t\t\"Name\" : \"Gif N3\",\n\t\t\"Description\" : \"El tercer gif que hay en el indice\",\n\t\t\"Description2\" : \"El cuarto gif que hay en el indice\",\n\t\t\"Score\" : 3,\n\t\t\"Tags\" : [\"Tag5\", \"Tag6\"],\n\t\t\"URL\" : \"url del gif 3\"\n\t},\n\t{\n\t\t\"IdGif\" : 4,\n\t\t\"Name\" : \"Gif N4\",\n\t\t\"Description\" : \"El cuarto gif que hay en el indice\",\n\t\t\"Description2\" : \"El quinto gif que hay en el indice\",\n\t\t\"Score\" : 4,\n\t\t\"Tags\" : [\"Tag7\", \"Tag8\"],\n\t\t\"URL\" : \"url del gif 4\"\n\t},\n\t{\n\t\t\"IdGif\" : 5,\n\t\t\"Name\" : \"Gif N5\",\n\t\t\"Description\" : \"El quinto gif que hay en el indice\",\n\t\t\"Description2\" : \"El sexto gif que hay en el indice\",\n\t\t\"Score\" : 5,\n\t\t\"Tags\" : [\"Tag9\", \"Tag10\"],\n\t\t\"URL\" : \"url del gif 5\"\n\t}\n\t\n]\n"
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/index/?indexName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"index",
+						""
+					],
+					"query": [
+						{
+							"key": "indexName",
+							"value": "xx_gifs_images"
+						}
+					]
+				},
+				"description": "Indexa los documentos"
+			},
+			"response": []
+		},
+		{
+			"name": "GetDocuments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/Get/?id=1&indexName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"Get",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						},
+						{
+							"key": "indexName",
+							"value": "xx_gifs_images"
+						}
+					]
+				},
+				"description": "Obtiene los documentos segun la id que le has pedido"
+			},
+			"response": []
+		},
+		{
+			"name": "SearchDocuments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/Search/?Id=&Query=&ScoreMin=&ScoreMax=&=&Tags=Tag1&Tags=Tag2&IndexName=xx_gifs_images&Description=&Description2=&Text=gif que hay&Page=1&PageSize=10&MinScore=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"Search",
+						""
+					],
+					"query": [
+						{
+							"key": "Id",
+							"value": ""
+						},
+						{
+							"key": "Query",
+							"value": ""
+						},
+						{
+							"key": "ScoreMin",
+							"value": ""
+						},
+						{
+							"key": "ScoreMax",
+							"value": ""
+						},
+						{
+							"key": "",
+							"value": ""
+						},
+						{
+							"key": "Tags",
+							"value": "Tag1"
+						},
+						{
+							"key": "Tags",
+							"value": "Tag2"
+						},
+						{
+							"key": "IndexName",
+							"value": "xx_gifs_images"
+						},
+						{
+							"key": "Description",
+							"value": ""
+						},
+						{
+							"key": "Description2",
+							"value": ""
+						},
+						{
+							"key": "Text",
+							"value": "gif que hay"
+						},
+						{
+							"key": "Page",
+							"value": "1"
+						},
+						{
+							"key": "PageSize",
+							"value": "10"
+						},
+						{
+							"key": "MinScore",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Busca los documentos con las caracteristicas que le especificas."
+			},
+			"response": []
+		},
+		{
+			"name": "BusquedaRAW",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"range\": {\r\n            \"score\": {\r\n              \"gte\": 2.0\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9200/xx_gifs_images/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"xx_gifs_images",
+						"_search"
+					]
+				},
+				"description": "Aqui sirve para poner directamente las querys"
+			},
+			"response": []
+		},
+		{
+			"name": "TestAnalyzer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"analyzer\": \"spanish\",\n\t\"text\": \"Enfermería de enfermeria la Enfermeria.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9200/_analyze?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_analyze"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateDocument",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"IdGif\": \"1\",\n    \"Name\": \"Gif N1\",\n    \"Description\": \"El primer gif que hay en el indice, editado123\",\n    \"Description2\": \"El segundo gif que hay en el indice123\",\n    \"Score\": 1,\n    \"Tags\": [\n        \"Tag1\",\n        \"Tag2\"\n    ],\n    \"URL\": \"url del gif 1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/update/?idDocument=1&indexName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"update",
+						""
+					],
+					"query": [
+						{
+							"key": "idDocument",
+							"value": "1"
+						},
+						{
+							"key": "indexName",
+							"value": "xx_gifs_images"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteDocument",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:51331/api/Elastic/Delete/?idDocument=4&indexName=xx_gifs_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51331",
+					"path": [
+						"api",
+						"Elastic",
+						"Delete",
+						""
+					],
+					"query": [
+						{
+							"key": "idDocument",
+							"value": "4"
+						},
+						{
+							"key": "indexName",
+							"value": "xx_gifs_images"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
