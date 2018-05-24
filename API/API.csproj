@@ -124,13 +124,13 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
-      <Project>{64a49d38-afe7-4f5d-ae86-c3504fcea9b0}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ElasticSearch.csproj">
       <Project>{3506e580-6322-48f9-8f7a-b4f5bd720ea8}</Project>
       <Name>ElasticSearch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{64a49d38-afe7-4f5d-ae86-c3504fcea9b0}</Project>
+      <Name>Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
