@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using ElasticSearch.Entities;
 
 namespace ElasticSearch.Services
 {
@@ -14,5 +14,9 @@ namespace ElasticSearch.Services
         bool SwapAlias(string newIndexName, string aliasName);
 
         bool DeleteIndex(string indexName);
+        
+        bool Update(Gif gifToUpdate, int idDocument, string indexName);
+
+        bool Delete(int idDocument, string indexName);
     }
 }

@@ -66,5 +66,21 @@ namespace API.Controllers
             //vistazo: scroll
             return _elasticService.Search<Gif>(filter);
         }
+
+
+        [HttpPost]
+        [ActionName("update")]
+        public bool Update([FromBody] Gif gifToUpdate, int idDocument, string indexName)
+        {
+            return _elasticIndexer.Update(gifToUpdate, idDocument, indexName);
+        }
+
+        [HttpGet]
+        [ActionName("delete")]
+        public bool Delete(int idDocument, string indexName)
+        {
+            return _elasticIndexer.Delete(idDocument, indexName);
+        }
+
     }
 }

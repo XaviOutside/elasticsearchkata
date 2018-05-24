@@ -34,7 +34,8 @@ namespace ElasticSearch.Repositories
             var result = _client.PutAlias(putRequest);
 
             string.Format("ElasticIndexerRepository --> AddAlias( indexName : {0}, aliasName : {1} )", indexName, aliasName).ToLog();
-            Encoding.UTF8.GetString(result.ApiCall.RequestBodyInBytes).ToLog(false);
+
+            result.ToLog();
 
             return result.IsValid;
         }
@@ -58,7 +59,8 @@ namespace ElasticSearch.Repositories
             //examinar bulkRes, hay cosillas interesantes como el número de docs bulkeados etc
 
             string.Format("ElasticIndexerRepository --> BulkIndex( entities : IEnumerable<Gif>, indexName : {0} )", indexName).ToLog();
-            Encoding.UTF8.GetString(bulkRes.ApiCall.RequestBodyInBytes).ToLog(false);
+
+            bulkRes.ToLog();
 
             return bulkRes.IsValid;
         }
@@ -90,23 +92,24 @@ namespace ElasticSearch.Repositories
                         .NumberOfReplicas(2)
                     )
                     .Mappings(m => m
-                        .Map<Gif>( mg =>mg
-                            .Properties(p => p
-                                .Text(t => t
+                        .Map<Gif>(mg => mg
+                           .Properties(p => p
+                               .Text(t => t
+                                   .Name(
+                                       n => n.Description
+                                    )
                                     .Name(
-                                        n => n.Description
-                                     )
-                                     .Name(
-                                        n => n.Description2
-                                    ).Analyzer("spanish")
-                            )
-                        )
+                                       n => n.Description2
+                                   ).Analyzer("spanish")
+                           )
+                       )
                     )
                 )
                 );
 
             string.Format("ElasticIndexerRepository --> CreateIndex( indexName : {0} )", indexName).ToLog();
-            Encoding.UTF8.GetString(idxRes.ApiCall.RequestBodyInBytes).ToLog(false);
+
+            idxRes.ToLog();
 
             return idxRes.IsValid;
         }
@@ -116,10 +119,8 @@ namespace ElasticSearch.Repositories
             var delRes = _client.DeleteIndex(indexName);
 
             string.Format("ElasticIndexerRepository --> DeleteIndex( indexName : {0} )", indexName).ToLog();
-            if (delRes.ApiCall.RequestBodyInBytes != null)
-            {
-                Encoding.UTF8.GetString(delRes.ApiCall.RequestBodyInBytes).ToLog(false);
-            }
+
+            delRes.ToLog();
 
             return delRes.IsValid;
         }
@@ -128,18 +129,49 @@ namespace ElasticSearch.Repositories
         {
             var indicesPointingToAlias = _client.GetIndicesPointingToAlias(aliasName);
 
-            string.Format("ElasticIndexerRepository --> SwapAlias( newIndexName : {0}, aliasName {1} ) ", newIndexName, aliasName).ToLog();
+            string.Format("ElasticIndexerRepository --> SwapAlias( newIndexName : {0}, aliasName : {1} ) ", newIndexName, aliasName).ToLog();
 
             foreach (var index in indicesPointingToAlias)
             {
                 var delAliasRes = _client.DeleteAlias(index, aliasName);
-                if (delAliasRes.ApiCall.RequestBodyInBytes != null)
-                {
-                    Encoding.UTF8.GetString(delAliasRes.ApiCall.RequestBodyInBytes).ToLog(false);
-                }
+                                 
+                delAliasRes.ToLog();                
             }
 
             return AddAlias(newIndexName, aliasName);
+        }
+
+        public bool Update(Gif gifToUpdate, int idDocument, string indexName)
+        {
+            var updateRequest = new UpdateRequest<Gif, Gif>(indexName, "gif", idDocument)
+            {
+                Doc = gifToUpdate
+            };
+            
+            var response = _client.Update<Gif>(updateRequest);            
+
+            string.Format("ElasticIndexerRepository --> Update( Gif, indexName : {0} ) ", indexName).ToLog();
+
+            response.ToLog();
+
+            return response.IsValid;
+        }
+
+
+        public bool Delete(int idDocument, string indexName)
+        {            
+            var response = _client.Delete(new DeleteRequest(indexName, "gif", idDocument));
+            
+            string.Format("ElasticIndexerRepository --> Delete( idDocument : {0}, indexName : {1} ) ", idDocument, indexName).ToLog();
+
+            response.ToLog();
+
+            return response.IsValid;
+        }
+
+        private void PrintResponseToLog(IResponse response)
+        {
+
         }
     }
 }

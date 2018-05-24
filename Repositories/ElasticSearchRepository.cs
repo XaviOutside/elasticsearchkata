@@ -29,7 +29,8 @@ namespace ElasticSearch.Repositories
             var resultGet = _client.Search<T>(d => d.Index(indexName).Query(q => q.Ids(s => s.Values(id))));
 
             string.Format("ElasticSearchRepository --> Get( id : {0}, indexName : {1})", id, indexName).ToLog();
-            Encoding.UTF8.GetString(resultGet.ApiCall.RequestBodyInBytes).ToLog(false);
+
+            resultGet.ToLog();
 
             return resultGet.Documents.FirstOrDefault();
         }
@@ -39,7 +40,8 @@ namespace ElasticSearch.Repositories
             var resultSearch = _client.Search<T>(d => descriptor);
 
             "ElasticSearchService --> Search( descriptor : SearchDescriptor<T> )".ToLog();
-            Encoding.UTF8.GetString(resultSearch.ApiCall.RequestBodyInBytes).ToLog(false);
+
+            resultSearch.ToLog();
 
             return resultSearch;
         }

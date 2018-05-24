@@ -88,9 +88,12 @@ namespace ElasticSearch.Services
                 var elasticRequest = new SearchDescriptor<Gif>();
             elasticRequest
                 .Index(descriptor.IndexName)
+                .MinScore(descriptor.MinScore)
+                .From((descriptor.Page > 0) ? (descriptor.Page - 1) * descriptor.PageSize : 0)
+                .Size((descriptor.PageSize >= 1) ? descriptor.PageSize : 50)
                 .Query(q => q.Bool(b => b.Must(queryContainerList.ToArray())) &&
                 q.Match(m => m
-                    .Field("name")
+                    .Field("name")                    
                     .Query(descriptor.Query)
                     .Operator(Operator.And)
                     .Fuzziness(Fuzziness.EditDistance(2))

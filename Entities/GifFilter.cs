@@ -9,6 +9,9 @@ namespace ElasticSearch.Entities
             Id = string.Empty;
             Query = string.Empty;
             Tags = new List<string>();
+            Page = 1;
+            PageSize = 50;
+            MinScore = 0;
         }
 
         public string Id { get; set; }
@@ -21,6 +24,8 @@ namespace ElasticSearch.Entities
 
         public int Page { get; set; }
 
+        public int PageSize { get; set; }
+
         public List<string> Tags { get; set; }
 
         public string IndexName { get; set; }
@@ -30,5 +35,7 @@ namespace ElasticSearch.Entities
         public string Description2 { get; set; }
 
         public string Text { get; set; }
+
+        public double MinScore { get; set; }
     }
 }

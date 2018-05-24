@@ -28,6 +28,11 @@ namespace ElasticSearch.Services
             return _elasticIndexerRepository.CreateIndex(indexName);
         }
 
+        public bool Delete(int idDocument, string indexName)
+        {
+            return _elasticIndexerRepository.Delete(idDocument, indexName);
+        }
+
         public bool DeleteIndex(string indexName)
         {
             return _elasticIndexerRepository.DeleteIndex(indexName);
@@ -36,6 +41,11 @@ namespace ElasticSearch.Services
         public bool SwapAlias(string newIndexName, string aliasName)
         {
             return _elasticIndexerRepository.SwapAlias(newIndexName, aliasName);
+        }
+
+        public bool Update(Gif gifToUpdate, int idDocument, string indexName)
+        {
+            return _elasticIndexerRepository.Update(gifToUpdate, idDocument, indexName);
         }
     }
 }
