@@ -90,14 +90,15 @@ namespace ElasticSearch.Services
                 .Index(descriptor.IndexName)
                 .MinScore(descriptor.MinScore)
                 .From((descriptor.Page > 0) ? (descriptor.Page - 1) * descriptor.PageSize : 0)
-                .Size((descriptor.PageSize >= 1) ? descriptor.PageSize : 50)
+                .Size((descriptor.PageSize >= 1) ? descriptor.PageSize : 50)                
                 .Query(q => q.Bool(b => b.Must(queryContainerList.ToArray())) &&
                 q.Match(m => m
                     .Field("name")                    
                     .Query(descriptor.Query)
                     .Operator(Operator.And)
                     .Fuzziness(Fuzziness.EditDistance(2))
-                    .Strict(false)));
+                    .Strict(false)))
+                .Sort(srt => srt.Descending("_score"));
 
 
             return _elasticRepository.Search<Gif>(elasticRequest).Documents;                        
