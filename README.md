@@ -7,4 +7,4 @@ Repositorio para la formación de ElasticSearch
 	4: Instalar la extensión: https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm/related
 	5: Ejecutar la extensión (icono arriba a la derecha del chrome) y conectarse a: http://localhost:9200/
 	6: Importar la colección de consultas al PostMan, estan en la carpeta \PostMan del proyecto. O también la podeis importar de aqui: https://www.getpostman.com/collections/a6ae4fd5619642dc6b91
-	7: Obtener la última versión del proyecto, compilar e ejecutarlo.
+	7: Obtener la última versión del proyecto, compilar e ejecutarlo. (Poner como Startup Project la API)
